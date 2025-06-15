@@ -1,10 +1,10 @@
 // Splash.js
-// Splash screen module for Say It and Spell It with embedded synth music and mute toggle
+// Retro-styled Splash screen for Say It and Spell It
 
 import * as Tone from 'https://cdn.skypack.dev/tone';
 
 export class Splash {
-  constructor() {
+  constructor(container = document.getElementById("main-content")) {
     // === UI SETUP ===
     this.container = document.createElement("div");
     this.container.id = "splash";
@@ -13,41 +13,49 @@ export class Splash {
     this.container.style.left = "50%";
     this.container.style.transform = "translate(-50%, -50%)";
     this.container.style.textAlign = "center";
-    this.container.style.backgroundColor = "white";
-    this.container.style.padding = "40px";
-    this.container.style.borderRadius = "10px";
-    this.container.style.boxShadow = "0 0 20px rgba(0, 0, 0, 0.2)";
+    this.container.style.fontFamily = "'VT323', monospace";
+    this.container.style.backgroundColor = "black";
+    this.container.style.border = "3px solid lime";
+    this.container.style.padding = "20px";
+    this.container.style.color = "lime";
     this.container.style.zIndex = "1000";
+    this.container.style.fontSize = "24px";
+    this.container.style.boxShadow = "0 0 10px lime";
+    this.container.style.width = "220px";
+    this.container.style.height = "140px";
+    this.container.style.display = "flex";
+    this.container.style.flexDirection = "column";
+    this.container.style.justifyContent = "center";
+    this.container.style.alignItems = "center";
 
-    const title = document.createElement("h1");
-    title.textContent = "Say It and Spell It";
-    title.style.fontSize = "3em";
-    title.style.marginBottom = "20px";
-    this.container.appendChild(title);
-
+    // === START BUTTON ===
     const startButton = document.createElement("button");
-    startButton.innerHTML = `<div style="line-height:1.2; font-size:1em;">press to</div><div style="font-size:2em; font-weight:bold;">START</div>`;
+    startButton.innerHTML = `<div style='line-height:1; font-size:18px;'>press to</div><div style='font-size:32px;'>START</div>`;
     startButton.style.width = "200px";
     startButton.style.height = "100px";
+    startButton.style.backgroundColor = "black";
+    startButton.style.color = "lime";
+    startButton.style.border = "2px solid lime";
+    startButton.style.fontFamily = "'VT323', monospace";
     startButton.style.cursor = "pointer";
-    startButton.style.backgroundColor = "white";
-    startButton.style.border = "4px solid limegreen";
-    startButton.style.borderRadius = "10px";
     startButton.style.display = "flex";
     startButton.style.flexDirection = "column";
     startButton.style.alignItems = "center";
     startButton.style.justifyContent = "center";
     startButton.onmouseenter = () => {
-      startButton.style.backgroundColor = "#eaffea";
+      startButton.style.backgroundColor = "#003300";
     };
     startButton.onmouseleave = () => {
-      startButton.style.backgroundColor = "white";
+      startButton.style.backgroundColor = "black";
     };
-    startButton.onclick = () => {
+    startButton.onclick = async () => {
+      await Tone.start();
       this.stopMusic();
       this.destroy();
       if (typeof window.menu1 === 'function') {
         window.menu1();
+      } else {
+        console.warn("menu1() is not defined");
       }
     };
     this.container.appendChild(startButton);
@@ -55,17 +63,17 @@ export class Splash {
     // === MUTE TOGGLE ===
     this.muteButton = document.createElement("button");
     this.muteButton.innerHTML = "🔇";
-    this.muteButton.style.marginTop = "20px";
-    this.muteButton.style.fontSize = "1.5em";
+    this.muteButton.style.marginTop = "10px";
+    this.muteButton.style.fontSize = "20px";
     this.muteButton.style.background = "none";
     this.muteButton.style.border = "none";
+    this.muteButton.style.color = "lime";
     this.muteButton.style.cursor = "pointer";
     this.muteButton.title = "Toggle sound";
     this.muteButton.onclick = () => this.toggleMute();
-    this.container.appendChild(document.createElement("br"));
     this.container.appendChild(this.muteButton);
 
-    document.body.appendChild(this.container);
+    container.appendChild(this.container);
 
     // === TONE.JS SYNTH SETUP ===
     this.isMuted = true;
@@ -78,14 +86,10 @@ export class Splash {
 
     Tone.Transport.bpm.value = 120;
     Tone.Transport.scheduleRepeat(this.loop, "1n");
-
-    Tone.start().then(() => {
-      if (!this.isMuted) this.startMusic();
-    });
   }
 
   show() {
-    this.container.style.display = "block";
+    this.container.style.display = "flex";
     if (!this.isMuted) this.startMusic();
   }
 
@@ -96,6 +100,7 @@ export class Splash {
   destroy() {
     this.container.remove();
     this.stopMusic();
+    this.container = null;
   }
 
   startMusic() {
