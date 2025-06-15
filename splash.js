@@ -52,10 +52,10 @@ export class Splash {
       this.destroy();
       try {
         const module = await import("https://giftedsam-bruh.github.io/SayITandSPELLit/menu1.js");
-        if (typeof module.menu1 === 'function') {
-          module.menu1();
+        if (typeof module.Menu1 === 'function') {
+          new module.Menu1().show();
         } else {
-          console.warn("menu1() is not exported properly");
+          console.warn("Menu1 class is not exported properly");
         }
       } catch (err) {
         console.error("Failed to dynamically load menu1.js:", err);
