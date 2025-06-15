@@ -1,8 +1,7 @@
-
 export class Menu1 {
   show() {
-    const app = document.getElementById("say-spell-app");
-    app.innerHTML = ""; // Clear existing content
+    const main = document.getElementById("main-content");
+    main.innerHTML = ""; // ✅ Only clears the dynamic module area
 
     const container = document.createElement("div");
     container.style.display = "flex";
@@ -19,7 +18,6 @@ export class Menu1 {
     title.style.marginBottom = "20px";
     container.appendChild(title);
 
-    // Create level buttons
     for (let i = 1; i <= 5; i++) {
       const button = document.createElement("button");
       button.textContent = `Level ${i}`;
@@ -31,8 +29,14 @@ export class Menu1 {
       button.style.fontSize = "20px";
       button.style.cursor = "pointer";
       button.style.fontFamily = "'VT323', monospace";
-      button.onmouseenter = () => button.style.backgroundColor = "#00FF00", button.style.color = "#000000";
-      button.onmouseleave = () => button.style.backgroundColor = "#000000", button.style.color = "#00FF00";
+      button.onmouseenter = () => {
+        button.style.backgroundColor = "#00FF00";
+        button.style.color = "#000000";
+      };
+      button.onmouseleave = () => {
+        button.style.backgroundColor = "#000000";
+        button.style.color = "#00FF00";
+      };
 
       button.onclick = () => {
         window.selectedLevel = i;
@@ -43,8 +47,6 @@ export class Menu1 {
       container.appendChild(button);
     }
 
-    app.appendChild(container);
+    main.appendChild(container); // ✅ Appends only to the content area
   }
 }
-
-window.Menu1 = Menu1;
