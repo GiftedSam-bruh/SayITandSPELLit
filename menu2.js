@@ -25,7 +25,8 @@ export class Menu2 {
       { label: "Say it", module: "SayIt" },
       { label: "Spell it", module: "SpellIt" },
       { label: "What is it", module: "WhatIsIt" },
-      { label: "Fill it (not working)", module: null }
+      { label: "Fill it", module: "FillIt" },
+      { label: "Under construction", module: null }
     ];
 
     activities.forEach(({ label, module }) => {
@@ -54,6 +55,7 @@ export class Menu2 {
           alert("That activity isn't ready yet.");
           return;
         }
+        window.selectedActivity = module;
         try {
           const imported = await import(`https://giftedsam-bruh.github.io/SayITandSPELLit/${module}.js`);
           if (typeof imported[module] === 'function') {
