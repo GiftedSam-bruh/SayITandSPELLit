@@ -26,9 +26,9 @@ export class WhatIsIt {
 
     const levelFile = `https://giftedsam-bruh.github.io/SayITandSPELLit/Level${level}words.js`;
 
-    import(levelFile)
-      .catch(() => {
-        container.textContent = `Error loading Level ${level} word list.`;
-      });
+//    import(levelFile)
+//      .catch(() => {
+//        container.textContent = `Error loading Level ${level} word list.`;
+//      });
   }
 }
