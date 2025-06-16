@@ -9,7 +9,12 @@ const status = document.getElementById("status-display");
 main.innerHTML = "";
 if (status) main.appendChild(status);
 
+window.selectedActivity = label;
 
+const activityDisplay = document.getElementById("selected-activity");
+if (activityDisplay) {
+  activityDisplay.textContent = label;
+}
     const container = document.createElement("div");
     container.style.display = "flex";
     container.style.flexDirection = "column";
