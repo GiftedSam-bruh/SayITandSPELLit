@@ -4,17 +4,8 @@
 export class Menu2 {
   show() {
     const main = document.getElementById("main-content");
-    // Preserve the status display, only remove the content area
-const status = document.getElementById("status-display");
-main.innerHTML = "";
-if (status) main.appendChild(status);
+    main.innerHTML = ""; // Clear module area only
 
-window.selectedActivity = label;
-
-const activityDisplay = document.getElementById("selected-activity");
-if (activityDisplay) {
-  activityDisplay.textContent = label;
-}
     const container = document.createElement("div");
     container.style.display = "flex";
     container.style.flexDirection = "column";
