@@ -1,10 +1,10 @@
-// Menu2.js
+// menu2.js
 // Activity selection menu
 
 export class Menu2 {
   show() {
     const main = document.getElementById("main-content");
-    main.innerHTML = ""; // Clear module area only
+    main.innerHTML = "";
 
     const container = document.createElement("div");
     container.style.display = "flex";
@@ -50,22 +50,29 @@ export class Menu2 {
         button.style.color = "#00FF00";
       };
 
-      button.onclick = async () => {
+      button.onclick = () => {
         if (!module) {
-          alert("That activity isn't ready yet.");
+          alert("This activity is under construction.");
           return;
         }
-        window.selectedActivity = module;
-        try {
-          const imported = await import(`https://giftedsam-bruh.github.io/SayITandSPELLit/${module}.js`);
-          if (typeof imported[module] === 'function') {
-            new imported[module]().show();
-          } else {
-            console.warn(`${module}.js did not export a class named ${module}`);
-          }
-        } catch (err) {
-          console.error(`Failed to load module ${module}.js:`, err);
+
+        window.selectedActivity = label;
+        if (typeof window.updateStatus === "function") {
+          window.updateStatus();
         }
+
+        import(`https://giftedsam-bruh.github.io/SayITandSPELLit/${module}.js`)
+          .then((mod) => {
+            const ActivityClass = mod[module];
+            if (typeof ActivityClass === "function") {
+              new ActivityClass().show();
+            } else {
+              alert(`Error: ${module} class not found in module.`);
+            }
+          })
+          .catch(() => {
+            alert(`Failed to load ${module}.js`);
+          });
       };
 
       container.appendChild(button);
