@@ -4,7 +4,11 @@
 export class Menu2 {
   show() {
     const main = document.getElementById("main-content");
-    main.innerHTML = ""; // Clear module area only
+    // Preserve the status display, only remove the content area
+const status = document.getElementById("status-display");
+main.innerHTML = "";
+if (status) main.appendChild(status);
+
 
     const container = document.createElement("div");
     container.style.display = "flex";
